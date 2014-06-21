@@ -5,6 +5,7 @@ import re
 import misc
 import MeCab
 import codecs
+import sys
 
 def get_dirs(root_dir):
     for top, dirs, files in os.walk(root_dir):
@@ -40,7 +41,11 @@ def ret_str_htmlfile_ja(file):
     return line
     
 def main():
-    for file in get_dirs('../data/manual/'):
+    if (len(sys.argv) != 2):
+        print('Usage: $ python %s data_dir > outfile' % sys.argv[0])
+        quit()
+    data_dir = sys.argv[1]
+    for file in get_dirs(data_dir):
         if re.match(r'.+(html\-ja).+\.(html)$', file):
             # .html ja
             print file + "\t" + ret_str_htmlfile_ja(file) 

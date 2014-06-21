@@ -5,6 +5,7 @@ import re
 import misc
 import MeCab
 import codecs
+import sys
 
 def get_dirs(root_dir):
     for top, dirs, files in os.walk(root_dir):
@@ -58,8 +59,12 @@ def read_set(file_name):
     return ret
     
 def main():
+    if (len(sys.argv) != 2):
+        print('Usage: $ python %s data_dir > outfile' % sys.argv[0])
+        quit()
+    data_dir = sys.argv[1]
     c_exclude_set = read_set("exclude.txt")
-    for file in get_dirs('../data/postgresql-9.3.4'):
+    for file in get_dirs(data_dir):
         if re.match(r'.+(html\-ja).+\.(html)$', file):
             # .html ja file
             print file + "\t" + ret_str_htmlfile_ja(file) 
