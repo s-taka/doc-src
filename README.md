@@ -3,7 +3,9 @@ doc-src
 ドキュメントとソースコードをTF-IDFを用いて対応付けできるかどうかやってみたScriptです。
 下記のsampleの通り、postgresql-9.3.4をターゲットにしています。（和訳版含む）
 
-結果は「http://staka.jp/wordpress/?p=72」に記載しています。
+結果は  
+http://staka.jp/wordpress/?p=72  
+に記載しています。
 
 Sample
 ------
