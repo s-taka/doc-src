@@ -48,10 +48,12 @@ def main():
     for file in get_dirs(data_dir):
         if re.match(r'.+(html\-ja).+\.(html)$', file):
             # .html ja
-            print file + "\t" + ret_str_htmlfile_ja(file) 
+            m = re.match(r'.+?([^\/]+)\.(html)$', file)
+            print m.group(1) + " " + ret_str_htmlfile_ja(file) 
         elif  re.match(r'.+\.(html)$', file):
             # .html file
-            print file + "\t" + ret_str_htmlfile(file) 
+            m = re.match(r'.+?([^\/]+)\.(html)$', file)
+            print m.group(1) + " " + ret_str_htmlfile(file) 
 
 if __name__=="__main__":
     main()
