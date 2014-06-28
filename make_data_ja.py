@@ -59,7 +59,8 @@ def ret_str_htmlfile_ja():
 def ret_str_htmlfile_ja_word2vec(datafile):
     data = word2vec.Text8Corpus(datafile)
     model = word2vec.Word2Vec(data, size=100, window=10, min_count=2, workers=2)
-    
+    cache_data = {}
+    cache_sumscore = {}
     def ret_str(file):
         f = codecs.open(file, 'r', 'euc_jp')
         text = f.read()
@@ -79,11 +80,16 @@ def ret_str_htmlfile_ja_word2vec(datafile):
                     similars = []
                     sum_score = 0.0
                     if word.decode('utf-8') in model:
-                        for w, score in model.most_similar(positive=word.decode('utf-8'), topn=10):
-                            if re.match(r'^[a-zA-Z0-9]+$', w):
-                                similars.append((w,score))
-                                sum_score = sum_score + score
-                        
+                        if word.decode('utf-8') in cache_data:
+                            similars = cache_data[word.decode('utf-8')]
+                            sum_score = cache_sumscore[word.decode('utf-8')]
+                        else:
+                            for w, score in model.most_similar(positive=word.decode('utf-8'), topn=10):
+                                if re.match(r'^[a-zA-Z0-9]+$', w):
+                                    similars.append((w,score))
+                                    sum_score = sum_score + score
+                            cache_data[word.decode('utf-8')] = similars
+                            cache_sumscore[word.decode('utf-8')] = sum_score
                         rnd = sum_score * random.random()
                         sum_sim_score = 0.0
                         for w, score in similars:
